@@ -6,7 +6,10 @@ export interface CustomButtonProps {
     title: string;
     containerStyles?: string;
     handleClick?: MouseEventHandler<HTMLButtonElement>
-    btnType: "button" | "submit"
+    btnType?: "button" | "submit";
+    textStyles?: string
+    rightIcon?: string;
+    isDisabled?: boolean;
 }
 
 export interface CustomFilterProps {
@@ -32,4 +35,10 @@ export interface CarProps {
     model: string;
     transmission: string;
     year: number;
+}
+
+export interface CardDetailsProps {
+    isOpen: boolean;
+    closeModal: () => void;
+    car: CarProps
 }
