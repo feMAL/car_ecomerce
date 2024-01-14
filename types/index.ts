@@ -12,15 +12,20 @@ export interface CustomButtonProps {
     isDisabled?: boolean;
 }
 
+export interface OptionsProps {
+    title: string;
+    value: string;
+}
+
 export interface CustomFilterProps {
     title: string;
+    options: OptionsProps[]
 }
 
 export interface SearchManufacturerProps{
     manufacturer:string;
     setManufacturer: (manufacture: string) => void
 }
-
 
 export interface CarProps {
     city_mpg: number
@@ -41,4 +46,21 @@ export interface CardDetailsProps {
     isOpen: boolean;
     closeModal: () => void;
     car: CarProps
+}
+
+export interface FilterProps {
+    manufacturer: string,
+    year: number,
+    fuel: string,
+    limit: number,
+    model: string
+}
+
+export interface HomeProps {
+    searchParams: FilterProps;
+}
+
+export interface ShowMoreProps {
+    pageNumber: number;
+    isNextPage: boolean
 }

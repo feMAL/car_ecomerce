@@ -1,9 +1,17 @@
 "use client"
-import { CarCard, CustomFilter, Hero, SearchBar } from '@/components'
+import { CarCard, CustomFilter, Hero, SearchBar, ShowMore } from '@/components'
+import { fuels, yearsOfProduction } from '@/constants'
+import { HomeProps } from '@/types'
 import { fetchCar } from '@/utils'
 
-export default async function Home() {
-  const allCars = await fetchCar()
+export default async function Home({searchParams}: HomeProps) {
+  const allCars = await fetchCar({
+    manufacturer: searchParams.manufacturer || '',
+    year: searchParams.year || 2022,
+    fuel: searchParams.fuel || '',
+    limit: searchParams.limit || 10,
+    model: searchParams.model || ''
+  })
 
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars
 
@@ -19,19 +27,25 @@ export default async function Home() {
           <div className='home__filters'>
             <SearchBar></SearchBar>
             <div className="home__filter-container">
-              <CustomFilter title="fuel"/>
-              <CustomFilter title="year"/>
+              <CustomFilter title="fuel" options={fuels}/>
+              <CustomFilter title="year" options={yearsOfProduction}/>
             </div>
           </div>
           {
             !isDataEmpty ?
-              <section className='home__cars-wrapper'>
-                {
-                  allCars.map((car ) => (
-                    <CarCard car={car}></CarCard>
-                  ))
-                }
-                WE HAVE CARS
+              <section>
+                <div className='home__cars-wrapper'>
+                  {
+                    allCars.map((car ) => (
+                      <CarCard car={car}></CarCard>
+                    ))
+                  }
+                </div>
+                <ShowMore
+                  pageNumber={(searchParams.limit || 10)/10 }
+                  isNextPage={(searchParams.limit || 10) > allCars.length}>
+                  
+                </ShowMore>
               </section> :
               <div className='home__error-container'>
                 <h2>Oops, no results</h2>
